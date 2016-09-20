@@ -23,6 +23,20 @@ docker run -d --name mongodump \
   lgatica/mongodump-s3
 ```
 
+Run every day at 2 am with full mongodb
+
+```bash
+docker run -d --name mongodump \
+  -e "MONGO_URI=mongodb://user:pass@host:port/dbname"
+  -e "AWS_ACCESS_KEY_ID=your_aws_access_key"
+  -e "AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key"
+  -e "AWS_DEFAULT_REGION=us-west-1"
+  -e "S3_BUCKET=your_aws_bucket"
+  -e "BACKUP_CRON_SCHEDULE=0 2 * * *"
+  -e "MONGO_COMPLETE=true"
+  lgatica/mongodump-s3
+```
+
 ### Inmediatic backup
 
 ```bash
@@ -71,3 +85,4 @@ You need to add a user with the following policies. Be sure to change `your_buck
 ## Extra environmnet
 
 - `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb`
+- `MONGO_COMPLETE` - Default not set. If set doing backup full mongodb
