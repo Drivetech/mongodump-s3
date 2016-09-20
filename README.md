@@ -1,6 +1,6 @@
 # mongodump-s3
 
-[![Image Layers](https://imagelayers.io/badge/lgatica/mongodump-s3:latest.svg)](https://imagelayers.io/?images=lgatica/mongodump-s3:latest 'Get your own badge on imagelayers.io')
+[![Layers](https://images.microbadger.com/badges/image/lgatica/mongodump-s3.svg)](http://microbadger.com/images/lgatica/mongodump-s3)
 [![Docker Stars](https://img.shields.io/docker/stars/lgatica/mongodump-s3.svg?style=flat-square)](https://hub.docker.com/r/lgatica/mongodump-s3)
 [![Docker Pulls](https://img.shields.io/docker/pulls/lgatica/mongodump-s3.svg?style=flat-square)](https://hub.docker.com/r/lgatica/mongodump-s3/)
 
