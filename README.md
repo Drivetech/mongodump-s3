@@ -48,6 +48,7 @@ docker run -d --name mongodump \
   -e "AWS_DEFAULT_REGION=us-west-1"
   -e "S3_BUCKET=your_aws_bucket"
   -e "BACKUP_CRON_SCHEDULE=0 2 * * *"
+  -e "BACKUP_DIR=/backup"
   -e "MONGO_COMPLETE=true"
   -e "MAX_BACKUPS=5"
   lgatica/mongodump-s3
@@ -101,9 +102,10 @@ You need to add a user with the following policies. Be sure to change `your_buck
 ## Extra environmnet
 
 - `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb`
-- `MONGO_COMPLETE` - Default not set. If set doing backup full mongodb
-- `MAX_BACKUPS` - Default not set. If set doing it keeps the last n backups in /backup
-
+- `BACKUP_DIR` - Default points to `/backup`
+- `MONGO_COMPLETE` - Default not set. If set doing full backup of mongodb
+- `MAX_BACKUPS` - Default not set. If set doing it keeps the last n backups in `BACKUP_DIR`
+- `ADDITIONAL_OPTIONS` - Default not set. Add additional mongodump [options](https://docs.mongodb.com/manual/reference/program/mongodump/#options). Example `--gzip --dumpDbUsersAndRoles`
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)

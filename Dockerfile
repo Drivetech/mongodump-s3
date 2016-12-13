@@ -2,18 +2,17 @@ FROM alpine:edge
 
 MAINTAINER Leonardo Gatica <lgatica@protonmail.com>
 
-RUN echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-  apk add --no-cache mongodb-tools py2-pip && \
-  pip install pymongo awscli && \
-  mkdir /backup
-
 ENV S3_PATH=mongodb
 ENV AWS_DEFAULT_REGION=us-east-1
+ENV BACKUP_DIR=/backup
 
-ADD entrypoint.sh /usr/local/bin/entrypoint
-ADD backup.sh /usr/local/bin/backup
-ADD mongouri.py /usr/local/bin/mongouri
+COPY entrypoint.sh /usr/local/bin/entrypoint
+COPY backup.sh /usr/local/bin/backup
+COPY mongouri.py /usr/local/bin/mongouri
 
-VOLUME /backup
+RUN echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
+  apk add --quiet --no-cache mongodb-tools py2-pip && \
+  pip install pymongo awscli && \
+  mkdir -p ${BACKUP_DIR}
 
 CMD /usr/local/bin/entrypoint
