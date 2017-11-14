@@ -1,10 +1,10 @@
 # mongodump-s3
 
-[![Layers](https://images.microbadger.com/badges/image/lgatica/mongodump-s3.svg)](http://microbadger.com/images/lgatica/mongodump-s3)
-[![Docker Stars](https://img.shields.io/docker/stars/lgatica/mongodump-s3.svg?style=flat-square)](https://hub.docker.com/r/lgatica/mongodump-s3)
-[![Docker Pulls](https://img.shields.io/docker/pulls/lgatica/mongodump-s3.svg?style=flat-square)](https://hub.docker.com/r/lgatica/mongodump-s3/)
+[![dockeri.co](http://dockeri.co/image/lgatica/mongodump-s3)](https://hub.docker.com/r/lgatica/mongodump-s3/)
 
-> Docker Image with [Alpine Linux](http://www.alpinelinux.org), [mongodump](https://docs.mongodb.com/manual/reference/program/mongodump/) and [awscli](https://github.com/aws/aws-cli) for backup mongo database to s3
+[![Build Status](https://travis-ci.org/lgaticaq/mongodump-s3.svg?branch=master)](https://travis-ci.org/lgaticaq/mongodump-s3)
+
+> Docker Image with Alpine Linux, mongodump and awscli for backup mongo database to s3
 
 ## Use
 

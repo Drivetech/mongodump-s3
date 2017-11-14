@@ -1,0 +1,21 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  - VERSION=1.1.0
+
+install:
+  - docker build -t lgatica/mongodump-s3:latest -t lgatica/mongodump-s3:$VERSION .
+
+script:
+  - docker run --rm lgatica/mongodump-s3:$VERSION mongodump --version
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push lgatica/mongodump-s3:latest
+  - docker push lgatica/mongodump-s3:$VERSION
+
+notifications:
+  email: false
