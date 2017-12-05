@@ -1,4 +1,4 @@
-FROM alpine:3.6@sha256:d6bfc3baf615dc9618209a8d607ba2a8103d9c8a405b3bd8741d88b4bef36478
+FROM alpine:3.7@sha256:ccba511b1d6b5f1d83825a94f9d5b05528db456d9cf14a1ea1db892c939cda64
 
 MAINTAINER Leonardo Gatica <lgatica@protonmail.com>
 
