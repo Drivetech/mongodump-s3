@@ -104,7 +104,12 @@ You need to add a user with the following policies. Be sure to change `your_buck
 - `MONGO_COMPLETE` - Default not set. If set doing backup full mongodb
 - `MAX_BACKUPS` - Default not set. If set doing it keeps the last n backups in /backup
 - `BACKUP_NAME` - Default is `$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz`. If set this is the name of the backup file. Useful when using s3 versioning. (Remember to place .gz extension on your filename)
-- `EXTRA_OPTIONS` - Default not set. You would probably need `--authenticationDatabase=admin`
+- `EXTRA_OPTIONS` - Default not set.
+
+## Troubleshoot
+
+1. If you get SASL Authentication failure, add  `--authenticationDatabase=admin` to EXTRA_OPTIONS.
+2. If you get "Failed: error writing data for collection ... Unrecognized field 'snapshot'", add `--forceTableScan` to EXTRA_OPTIONS.
 
 ## License
 
