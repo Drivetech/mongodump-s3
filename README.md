@@ -53,7 +53,7 @@ docker run -d --name mongodump \
   lgatica/mongodump-s3
 ```
 
-### Inmediatic backup
+### Immediate backup
 
 ```bash
 docker run -d --name mongodump \
@@ -65,9 +65,9 @@ docker run -d --name mongodump \
   lgatica/mongodump-s3
 ```
 
-## IAM Policiy
+## IAM Policy
 
-You need to add a user with the following policies. Be sure to change `your_bucket` by the correct.
+You need to add a user with the following policies. Be sure to change `your_bucket` by the correct name.
 
 ```xml
 {
