@@ -1,18 +1,20 @@
 #!/usr/bin/env sh
 
-OPTIONS=`python mongouri.py`
+OPTIONS=`python /usr/local/bin/mongouri`
 OPTIONS="$OPTIONS $EXTRA_OPTIONS"
 DEFAULT_BACKUP_NAME="$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz"
 BACKUP_NAME=${BACKUP_NAME:-$DEFAULT_BACKUP_NAME}
-LOCAL_BACKUP_ROOT_FOLDER="/backup"
+LOCAL_BACKUP_ROOT_FOLDER="backup"
 LOCAL_DUMP_LOCATION="$LOCAL_BACKUP_ROOT_FOLDER/dump"
 
 notify() {
-  message="$BACKUP_NAME has been backed up  at s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}"
-  if [ "${1}" != "0" ]; then
-    message="Unable to backup $BACKUP_NAME at s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}. See Logs."
+  if [ "${SLACK_URI}" ]; then
+    message="$BACKUP_NAME has been backed up  at s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}"
+    if [ "${1}" != "0" ]; then
+      message="Unable to backup $BACKUP_NAME at s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}. See Logs."
+    fi
+    curl -X POST --data-urlencode "payload={\"text\": \"$message\"}" $SLACK_URI
   fi
-  curl -X POST --data-urlencode "payload={\"text\": \"$message\"}" $SLACK_URI
 }
 
 # Run backup
@@ -25,7 +27,7 @@ if [ "${status}" -eq "1" ]; then
 fi
 
 # Compress backup
-tar -cvzf "${BACKUP_NAME}" "${LOCAL_DUMP_LOCATION}"
+tar -cvzf "${LOCAL_BACKUP_ROOT_FOLDER}/${BACKUP_NAME}" "${LOCAL_DUMP_LOCATION}"
 
 # Upload backup
 aws s3 cp "${LOCAL_BACKUP_ROOT_FOLDER}/${BACKUP_NAME}" "s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}"

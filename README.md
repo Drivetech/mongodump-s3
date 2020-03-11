@@ -118,6 +118,7 @@ You need to add a user with the following policies. Be sure to change `your_buck
 - `MAX_BACKUPS` - Default not set. If set doing it keeps the last n backups in /backup
 - `BACKUP_NAME` - Default is `$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz`. If set this is the name of the backup file. Useful when using s3 versioning. (Remember to place .gz extension on your filename)
 - `EXTRA_OPTIONS` - Default not set.
+- `SLACK_URI` - Default not set. Sends a curl notification to the Slack Incoming Webhook.
 
 ## Troubleshoot
 
