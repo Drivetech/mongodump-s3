@@ -98,7 +98,7 @@ You need to add a user with the following policies. Be sure to change `your_buck
 }
 ```
 
-## Extra environmnet
+## Extra environment
 
 - `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb`
 - `MONGO_COMPLETE` - Default not set. If set doing backup full mongodb
