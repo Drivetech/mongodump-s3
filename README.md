@@ -103,6 +103,7 @@ You need to add a user with the following policies. Be sure to change `your_buck
 - `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb`
 - `MONGO_COMPLETE` - Default not set. If set doing backup full mongodb
 - `MAX_BACKUPS` - Default not set. If set doing it keeps the last n backups in /backup
+- `AWS_S3_ENDPOINT` - Default not set. You can use this for backing up to other s3 compatible storages
 
 ## License
 
