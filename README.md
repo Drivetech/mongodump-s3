@@ -65,6 +65,19 @@ docker run -d --name mongodump \
   lgatica/mongodump-s3
 ```
 
+### Slack Hook
+```bash
+docker run -d --name mongodump \
+  -e "MONGO_URI=mongodb://user:pass@host:port/dbname"
+  -e "AWS_ACCESS_KEY_ID=your_aws_access_key"
+  -e "AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key"
+  -e "AWS_DEFAULT_REGION=us-west-1"
+  -e "S3_BUCKET=your_aws_bucket"
+  -e "SLACK_URI=your_slack_uri"
+  lgatica/mongodump-s3
+```
+
+
 ## IAM Policy
 
 You need to add a user with the following policies. Be sure to change `your_bucket` by the correct name.
@@ -106,6 +119,7 @@ You need to add a user with the following policies. Be sure to change `your_buck
 - `AWS_S3_ENDPOINT` - Default not set. You can use this for backing up to other s3 compatible storages
 - `BACKUP_NAME` - Default is `$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz`. If set this is the name of the backup file. Useful when using s3 versioning. (Remember to place .gz extension on your filename)
 - `EXTRA_OPTIONS` - Default not set.
+- `SLACK_URI` - Default not set. Sends a curl notification to the Slack Incoming Webhook.
 
 ## Troubleshoot
 
