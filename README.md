@@ -53,7 +53,7 @@ docker run -d --name mongodump \
   lgatica/mongodump-s3
 ```
 
-### Inmediatic backup
+### Immediate backup
 
 ```bash
 docker run -d --name mongodump \
@@ -65,9 +65,9 @@ docker run -d --name mongodump \
   lgatica/mongodump-s3
 ```
 
-## IAM Policity
+## IAM Policy
 
-You need to add a user with the following policies. Be sure to change `your_bucket` by the correct.
+You need to add a user with the following policies. Be sure to change `your_bucket` by the correct name.
 
 ```xml
 {
@@ -98,12 +98,19 @@ You need to add a user with the following policies. Be sure to change `your_buck
 }
 ```
 
-## Extra environmnet
+## Extra environment
 
 - `S3_PATH` - Default value is `mongodb`. Example `s3://your_bucket/mongodb`
 - `MONGO_COMPLETE` - Default not set. If set doing backup full mongodb
 - `MAX_BACKUPS` - Default not set. If set doing it keeps the last n backups in /backup
 - `AWS_S3_ENDPOINT` - Default not set. You can use this for backing up to other s3 compatible storages
+- `BACKUP_NAME` - Default is `$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz`. If set this is the name of the backup file. Useful when using s3 versioning. (Remember to place .gz extension on your filename)
+- `EXTRA_OPTIONS` - Default not set.
+
+## Troubleshoot
+
+1. If you get SASL Authentication failure, add  `--authenticationDatabase=admin` to EXTRA_OPTIONS.
+2. If you get "Failed: error writing data for collection ... Unrecognized field 'snapshot'", add `--forceTableScan` to EXTRA_OPTIONS.
 
 ## License
 

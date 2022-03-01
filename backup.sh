@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 
 OPTIONS=`python /usr/local/bin/mongouri`
-BACKUP_NAME="$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz"
+OPTIONS="$OPTIONS $EXTRA_OPTIONS"
+DEFAULT_BACKUP_NAME="$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz"
+BACKUP_NAME=${BACKUP_NAME:-$DEFAULT_BACKUP_NAME}
 
 # Run backup
 mongodump ${OPTIONS} -o /backup/dump
