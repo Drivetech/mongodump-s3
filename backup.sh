@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-OPTIONS=`python /usr/local/bin/mongouri`
+OPTIONS=`python3 /usr/local/bin/mongouri`
 OPTIONS="$OPTIONS $EXTRA_OPTIONS"
 DEFAULT_BACKUP_NAME="$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz"
 BACKUP_NAME=${BACKUP_NAME:-$DEFAULT_BACKUP_NAME}
@@ -35,7 +35,7 @@ if [ ! -z "$AWS_S3_ENDPOINT" ]; then
 fi
 
 # Upload backup
-aws s3 cp "${LOCAL_BACKUP_ROOT_FOLDER}/${BACKUP_NAME}" "s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}"
+aws $ENDPOINT s3 cp "${LOCAL_BACKUP_ROOT_FOLDER}/${BACKUP_NAME}" "s3://${S3_BUCKET}/${S3_PATH}/${BACKUP_NAME}"
 status=$?
 echo $status
 if [ "${status}" != "0" ]; then
