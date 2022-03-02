@@ -1,0 +1,68 @@
+on: 
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v2
+
+      - name: Build docker image 
+        run: docker build -t mongo-backup .
+
+      - name: Create a mongo container
+        run: |
+          docker run --name test-mongo \
+            -e MONGO_INITDB_ROOT_USERNAME=mongo \
+            -e MONGO_INITDB_ROOT_PASSWORD=secret \
+            -d mongo
+
+      - name: Run MINIO container
+        run: |
+          # Create a directory to initialise default bucket
+          mkdir -p ~/minio/data/mongodb
+          MONGO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-mongo)
+      
+          docker run \
+            --name minio1 \
+            -v ~/minio/data:/data \
+            -e "MINIO_ROOT_USER=AKIAIOSFODNN7EXAMPLE" \
+            -e "MINIO_ROOT_PASSWORD=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" \
+            -d quay.io/minio/minio server /data --console-address ":9001" 
+ 
+      - name: Test backup all databases
+        run: |
+          sleep 5 
+          MONGO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-mongo)
+          MINIO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minio1)
+          docker run --name mongodump \
+            -e "MONGO_URI=mongodb://mongo:secret@${MONGO_IP}/dbname" \
+            -e MONGO_COMPLETE=true \
+            -e AWS_ACCESS_KEY_ID="AKIAIOSFODNN7EXAMPLE" \
+            -e AWS_SECRET_ACCESS_KEY="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" \
+            -e AWS_S3_ENDPOINT="http://${MINIO_IP}:9000" \
+            -e "AWS_DEFAULT_REGION=us-west-1" \
+            -e "S3_BUCKET=mongodb" \
+            mongo-backup
+      
+      - name: Test backup selected admin database 
+        run: |
+          MONGO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-mongo) 
+          MINIO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minio1)
+          docker run --name mongodump \
+            -e "MONGO_URI=mongodb://mongo:secret@${MONGO_IP}/admin" \
+            -e MONGO_COMPLETE=true \
+            -e AWS_ACCESS_KEY_ID="AKIAIOSFODNN7EXAMPLE" \
+            -e AWS_SECRET_ACCESS_KEY="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" \
+            -e AWS_S3_ENDPOINT="http://${MINIO_IP}:9000" \
+            -e "AWS_DEFAULT_REGION=us-west-1" \
+            -e "S3_BUCKET=mongodb" \
+            mongo-backup
+
+    
