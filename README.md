@@ -1,8 +1,8 @@
 # mongodump-s3
 
-[![dockeri.co](http://dockeri.co/image/lgatica/mongodump-s3)](https://hub.docker.com/r/lgatica/mongodump-s3/)
+[![dockeri.co](http://dockeri.co/image/vikasy/mongodump-s3)](https://hub.docker.com/r/vikasy/mongodump-s3/)
 
-[![Build Status](https://travis-ci.org/lgaticaq/mongodump-s3.svg?branch=master)](https://travis-ci.org/lgaticaq/mongodump-s3)
+[![.github/workflows/ci.yaml](https://github.com/vik-y/mongodump-s3/actions/workflows/ci.yaml/badge.svg)](https://github.com/vik-y/mongodump-s3/actions/workflows/ci.yaml)
 
 > Docker Image with Alpine Linux, mongodump and awscli for backup mongo database to s3
 
