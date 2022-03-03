@@ -41,6 +41,8 @@ jobs:
           sleep 5 
           MONGO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-mongo)
           MINIO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minio1)
+
+          # Take a backup of all databases by specifying MONGO_COMPLETE=true
           docker run --name mongodump \
             -e "MONGO_URI=mongodb://mongo:secret@${MONGO_IP}/dbname" \
             -e MONGO_COMPLETE=true \
@@ -53,8 +55,13 @@ jobs:
       
       - name: Test backup selected admin database 
         run: |
+          # Remove existing mongodump container
+          docker rm -f mongodump 
+      
           MONGO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-mongo) 
           MINIO_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minio1)
+
+          # Take backup of admin database only
           docker run --name mongodump \
             -e "MONGO_URI=mongodb://mongo:secret@${MONGO_IP}/admin" \
             -e MONGO_COMPLETE=true \
