@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-OPTIONS=`python /usr/local/bin/mongouri`
+OPTIONS=`python /usr/local/bin/mongouri --forceTableScan`
 BACKUP_NAME="$(date -u +%Y-%m-%d_%H-%M-%S)_UTC.gz"
 
 # Run backup
